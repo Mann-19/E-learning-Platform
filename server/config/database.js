@@ -1,15 +1,11 @@
-const { Sequelize } = require("sequelize");
-require("dotenv").config();
+import { createClient } from '@supabase/supabase-js';
+import dotenv from 'dotenv';
 
-const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER, process.env.DB_PASSWORD, {
-    host: process.env.DB_HOST,
-    dialect: process.env.DB_DIALECT,
-    port: process.env.DB_PORT,
-    logging: false, // Disable SQL logs in the console
-});
+dotenv.config();
 
-sequelize.authenticate()
-    .then(() => console.log("✅ PostgreSQL Database connected successfully!"))
-    .catch(err => console.log("❌ Error: " + err));
+const SUPABASE_URL = process.env.SUPABASE_URL;
+const SUPABASE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
-module.exports = sequelize;
+const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+
+export default supabase;
