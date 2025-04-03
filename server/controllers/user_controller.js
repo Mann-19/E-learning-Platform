@@ -1,23 +1,44 @@
-const User = require("../services/User");
+import { getAllUsers, getUserById } from "../services/user.js";
 
-// Fetch all users
-exports.getUsers = async (req, res) => {
+// Fetch single user function
+const getUser = async (req, res) => {
+    const { id } = req.params;
     try {
-        const users = await User.findAll();
+        const user = await getUserById(id);
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+        res.json(user);
+    } catch (error) {
+        res.status(500).json({ message: "Server Error" });
+        console.log(error);
+    }
+}
+
+// Fetch all users function
+const getUsers = async (req, res) => {
+    try {
+        const users = await getAllUsers();
         res.json(users);
     } catch (error) {
         res.status(500).json({ message: "Server Error" });
+        console.log(error);
     }
 };
 
-// Create a new user
-exports.createUser = async (req, res) => {
-    try {
-        const { name, email, password, role } = req.body;
-        
-        const user = await User.create({ name, email, password, role });
-        res.status(201).json(user);
-    } catch (error) {
-        res.status(400).json({ message: "Error creating user" });
-    }
+// Create a new user function
+const createUser = async (req, res) => {
+    res.send("Create user");
 };
+
+// Update User function
+const updateUser = async (req, res) => {
+    res.send("Update user");
+};
+
+// Delete User
+const deleteUser = async (req, res) => {
+    res.send("Delete user");
+};
+
+export { getUsers, getUser, createUser, updateUser, deleteUser };
