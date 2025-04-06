@@ -1,5 +1,5 @@
 const express = require("express");
-const { getCourses, getCourse, createNewCourse, updateCourseDetails, deleteCourseById, updateCourseDetails, deleteCourseById, createNewCourse, getCourse } = require("../controllers/course_controller");
+const { getCourses, getCourse, createNewCourse, updateCourseDetails, deleteCourseById, updateCourseDetails, deleteCourseById, createNewCourse, getCourse } = require("../controllers/course_controller.js");
 
 const router = express.Router();
 
