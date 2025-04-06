@@ -1,5 +1,5 @@
-//import { supabase } from "../config/database.js"; // DB
-//import { getUserById } from "../services/user.js"; // For checking instructor's role (if needed)
+import { supabase } from "../config/database.js"; // DB
+import { getUserById } from "../services/user.js"; // For checking instructor's role (if needed)
 
 // Fetch a single course by its ID
 const getCourseById = async (req, res) => {
