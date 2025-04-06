@@ -1,5 +1,5 @@
 const express = require("express");
-const { getCourses, getCourseById, createCourse, updateCourse, deleteCourse } = require("../controllers/course_controller");
+const { getCourses, getCourse, createNewCourse, updateCourseDetails, deleteCourseById, updateCourseDetails, deleteCourseById, createNewCourse, getCourse } = require("../controllers/course_controller");
 
 const router = express.Router();
 
@@ -15,27 +15,27 @@ router.get("/", getCourses);
  * @desc    Fetch a course by ID
  * @access  Public
  */
-router.get("/:id", getCourseById);
+router.get("/:id", getCourse);
 
 /**
  * @route   POST /api/courses
  * @desc    Create a new course
  * @access  Public
  */
-router.post("/", createCourse);
+router.post("/", createNewCourse);
 
 /**
  * @route   PUT /api/courses/:id
  * @desc    Update an existing course
  * @access  Public
  */
-router.put("/:id", updateCourse);
+router.put("/:id", updateCourseDetails);
 
 /**
  * @route   DELETE /api/courses/:id
  * @desc    Delete a course
  * @access  Public
  */
-router.delete("/:id", deleteCourse);
+router.delete("/:id", deleteCourseById);
 
 module.exports = router;

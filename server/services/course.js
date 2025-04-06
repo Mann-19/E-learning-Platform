@@ -3,7 +3,7 @@ import supabase from '../config/database.js';
 // Get a single course by ID
 export async function getCourseById(courseId) {
     const { data, error } = await supabase
-        .from('courses')
+        .from('Course')
         .select('*')
         .eq('id', courseId)
         .single();
@@ -15,7 +15,7 @@ export async function getCourseById(courseId) {
 // Get all courses
 export async function getAllCourses() {
     const { data, error } = await supabase
-        .from('courses')
+        .from('Course')
         .select('*');
     
     if (error) throw new Error(`Error fetching courses: ${error.message}`);
@@ -25,7 +25,7 @@ export async function getAllCourses() {
 // Create a new course
 export async function createCourse(courseData) {
     const { data, error } = await supabase
-        .from('courses')
+        .from('Course')
         .insert([courseData]) // Wrap in an array as Supabase expects
         .select()
         .single();
@@ -37,7 +37,7 @@ export async function createCourse(courseData) {
 // Update a course by ID
 export async function updateCourse(courseId, courseData) {
     const { data, error } = await supabase
-        .from('courses')
+        .from('Course')
         .update(courseData)
         .eq('id', courseId)
         .select()
@@ -50,7 +50,7 @@ export async function updateCourse(courseId, courseData) {
 // Delete a course by ID
 export async function deleteCourse(courseId) {
     const { error } = await supabase
-        .from('courses')
+        .from('Course')
         .delete()
         .eq('id', courseId);
     
@@ -61,7 +61,7 @@ export async function deleteCourse(courseId) {
 // Get all courses by a specific instructor
 export async function getCoursesByInstructorId(instructorId) {
     const { data, error } = await supabase
-        .from('courses')
+        .from('Course')
         .select('*')
         .eq('instructor_id', instructorId);
     

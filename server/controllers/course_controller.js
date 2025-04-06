@@ -1,168 +1,121 @@
-import { supabase } from "../config/database.js"; // DB
-import { getUserById } from "../services/user.js"; // For checking instructor's role (if needed)
+import {
+    getCourseById as fetchCourseById,
+    getAllCourses as fetchAllCourses,
+    createCourse as addCourse,
+    updateCourse as modifyCourse,
+    deleteCourse as removeCourse,
+    getCoursesByInstructorId as fetchCoursesByInstructor
+} from '../services/course.js';
 
-// Fetch a single course by its ID
-const getCourseById = async (req, res) => {
-    const { id } = req.params; // Get the course ID from the URL
+/**
+ * @desc Get a single course by its ID
+ * @route GET /api/courses/:id
+ */
+const getCourse = async (req, res) => {
+    const { id } = req.params;
+
     try {
-        // Query Supabase to get the course details
-        const { data: course, error } = await supabase
-            .from('courses')
-            .select('*')
-            .eq('id', id)
-            .single(); // Fetch a single row
-
-        if (error || !course) {
-            return res.status(404).json({ message: "Course not found" });
+        const course = await fetchCourseById(id);
+        if (!course) {
+            return res.status(404).json({ message: 'Course not found' });
         }
-        res.json(course); // Return the course data
+        res.json(course);
     } catch (error) {
-        res.status(500).json({ message: "Server Error" });
-        console.error(error);
+        console.error('Error fetching course:', error);
+        res.status(500).json({ message: 'Server Error' });
     }
 };
 
-// Fetch all courses
-const getAllCourses = async (req, res) => {
+/**
+ * @desc Get all available courses
+ * @route GET /api/courses
+ */
+const getCourses = async (req, res) => {
     try {
-        // Query Supabase to get all courses
-        const { data: courses, error } = await supabase
-            .from('courses')
-            .select('*');
-
-        if (error || !courses) {
-            return res.status(404).json({ message: "Courses not found" });
-        }
-        res.json(courses); // Return the list of courses
+        const courses = await fetchAllCourses();
+        res.json(courses);
     } catch (error) {
-        res.status(500).json({ message: "Server Error" });
-        console.error(error);
+        console.error('Error fetching courses:', error);
+        res.status(500).json({ message: 'Server Error' });
     }
 };
 
-// Create a new course (Instructor only)
-const createCourse = async (req, res) => {
+/**
+ * @desc Create a new course
+ * @route POST /api/courses
+ */
+const createNewCourse = async (req, res) => {
     const { title, description, instructor_id } = req.body;
 
-    // Validate instructor existence (optional)
-    const { data: instructor, error: instructorError } = await supabase
-        .from('users')
-        .select('*')
-        .eq('id', instructor_id)
-        .single();
-    
-    if (instructorError || !instructor) {
-        return res.status(400).json({ message: "Instructor not found" });
-    }
-
     try {
-        // Insert a new course into the 'courses' table
-        const { data, error } = await supabase
-            .from('courses')
-            .insert([
-                { title, description, instructor_id }
-            ])
-            .single(); // Return a single row
-
-        if (error) {
-            return res.status(400).json({ message: "Failed to create course", error });
+        // Basic validation
+        if (!title || !description || !instructor_id) {
+            return res.status(400).json({ message: 'Missing required fields' });
         }
 
-        res.status(201).json(data); // Return the newly created course
+        const newCourse = await addCourse({ title, description, instructor_id });
+        res.status(201).json(newCourse);
     } catch (error) {
-        res.status(500).json({ message: "Server Error" });
-        console.error(error);
+        console.error('Error creating course:', error);
+        res.status(500).json({ message: 'Server Error' });
     }
 };
 
-// Update course details (Instructor only)
-const updateCourse = async (req, res) => {
-    const { id } = req.params; // Get course ID from the URL
-    const { title, description } = req.body; // Get new data from the request body
+/**
+ * @desc Update an existing course by ID
+ * @route PUT /api/courses/:id
+ */
+const updateCourseDetails = async (req, res) => {
+    const { id } = req.params;
+    const { title, description } = req.body;
 
     try {
-        // Check if the course exists
-        const { data: course, error: courseError } = await supabase
-            .from('courses')
-            .select('*')
-            .eq('id', id)
-            .single();
-
-        if (courseError || !course) {
-            return res.status(404).json({ message: "Course not found" });
-        }
-
-        // Update course details
-        const { data, error } = await supabase
-            .from('courses')
-            .update({ title, description })
-            .eq('id', id)
-            .single();
-
-        if (error) {
-            return res.status(400).json({ message: "Failed to update course", error });
-        }
-
-        res.json(data); // Return updated course
+        const updatedCourse = await modifyCourse(id, { title, description });
+        res.json(updatedCourse);
     } catch (error) {
-        res.status(500).json({ message: "Server Error" });
-        console.error(error);
+        console.error('Error updating course:', error);
+        res.status(500).json({ message: 'Server Error' });
     }
 };
 
-// Delete a course (Instructor only)
-const deleteCourse = async (req, res) => {
-    const { id } = req.params; // Get the course ID from the URL
+/**
+ * @desc Delete a course by ID
+ * @route DELETE /api/courses/:id
+ */
+const deleteCourseById = async (req, res) => {
+    const { id } = req.params;
 
     try {
-        // Check if the course exists
-        const { data: course, error: courseError } = await supabase
-            .from('courses')
-            .select('*')
-            .eq('id', id)
-            .single();
-
-        if (courseError || !course) {
-            return res.status(404).json({ message: "Course not found" });
-        }
-
-        // Delete the course from the 'courses' table
-        const { error } = await supabase
-            .from('courses')
-            .delete()
-            .eq('id', id);
-
-        if (error) {
-            return res.status(400).json({ message: "Failed to delete course", error });
-        }
-
-        res.status(204).json({ message: "Course deleted successfully" });
+        const result = await removeCourse(id);
+        res.status(200).json(result); // returns a message
     } catch (error) {
-        res.status(500).json({ message: "Server Error" });
-        console.error(error);
+        console.error('Error deleting course:', error);
+        res.status(500).json({ message: 'Server Error' });
     }
 };
 
-// Fetch all courses by a specific instructor
-const getCoursesByInstructorId = async (req, res) => {
+/**
+ * @desc Get all courses created by a specific instructor
+ * @route GET /api/courses/instructor/:instructor_id
+ */
+const getCoursesByInstructor = async (req, res) => {
     const { instructor_id } = req.params;
 
     try {
-        // Query Supabase to get courses by the instructor's ID
-        const { data: courses, error } = await supabase
-            .from('courses')
-            .select('*')
-            .eq('instructor_id', instructor_id);
-
-        if (error || !courses) {
-            return res.status(404).json({ message: "Courses not found" });
-        }
-
-        res.json(courses); // Return the courses
+        const instructorCourses = await fetchCoursesByInstructor(instructor_id);
+        res.json(instructorCourses);
     } catch (error) {
-        res.status(500).json({ message: "Server Error" });
-        console.error(error);
+        console.error('Error fetching instructor courses:', error);
+        res.status(500).json({ message: 'Server Error' });
     }
 };
 
-export { getCourseById, getAllCourses, createCourse, updateCourse, deleteCourse, getCoursesByInstructorId };
+export {
+    getCourse,
+    getCourses,
+    createNewCourse,
+    updateCourseDetails,
+    deleteCourseById,
+    getCoursesByInstructor
+};
+
