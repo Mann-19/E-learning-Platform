@@ -31,7 +31,7 @@ const createUser = async (req, res) => {
     try {
         const { name, email, password, role, qualification } = req.body;
         
-        if (!name || !email) {
+        if (!name || !email || !password) {
             return res.status(400).json({ message: "Name and email are required" });
         }   
 
