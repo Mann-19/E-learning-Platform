@@ -1,6 +1,5 @@
-const express = require("express");
-const { getModules, getModule, createModule, updateModule, deleteModule } = require("../controllers/module_controller");
-
+import express from 'express';
+import { getModules, getModule, createModule, updateModule, deleteModule } from "../controllers/module_controller.js";
 const router = express.Router();
 
 router.get("/", getModules);
@@ -13,4 +12,4 @@ router.put("/:id", updateModule);
 
 router.delete("/:id", deleteModule);
 
-module.exports = router;
+export default router;

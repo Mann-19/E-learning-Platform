@@ -1,4 +1,4 @@
-import { getModuleById, getAllModules, createNewModule, updateModuleById, deleteModuleById } from "../services/module";
+import { getModuleById, getAllModules, createNewModule, updateModuleById, deleteModuleById } from "../services/module.js";
 
 // Fetch single module function
 const getModule = async (req, res) => {
