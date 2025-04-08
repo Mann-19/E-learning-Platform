@@ -9,6 +9,7 @@ export async function getCourseById(courseId) {
         .single();
     
     if (error) throw new Error(`Error fetching course: ${error.message}`);
+
     return data;
 }
 
@@ -23,19 +24,19 @@ export async function getAllCourses() {
 }
 
 // Create a new course
-export async function createCourse(courseData) {
+export async function createNewCourse(courseData) {
     const { data, error } = await supabase
         .from('Course')
         .insert([courseData]) // Wrap in an array as Supabase expects
         .select()
         .single();
     
-    if (error) throw new Error(`Error creating course: ${error.message}`);
+    if (error) throw new Error(`Error creating course (from service): ${error.message}`);
     return data;
 }
 
 // Update a course by ID
-export async function updateCourse(courseId, courseData) {
+export async function updateCourseById(courseId, courseData) {
     const { data, error } = await supabase
         .from('Course')
         .update(courseData)
@@ -48,7 +49,7 @@ export async function updateCourse(courseId, courseData) {
 }
 
 // Delete a course by ID
-export async function deleteCourse(courseId) {
+export async function deleteCourseById(courseId) {
     const { error } = await supabase
         .from('Course')
         .delete()
