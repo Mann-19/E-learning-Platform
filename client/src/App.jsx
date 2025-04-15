@@ -1,7 +1,4 @@
 import Home from "./pages/Home";
-import Login from "./pages/Login";
-import SignUp from "./pages/Signup";
-
 import { BrowserRouter, Routes, Route } from 'react-router';
 
 function App() {
