@@ -62,7 +62,7 @@ const SignUp = () => {
             <label className="text-lg mb-1 font-semibold mt-5">Qualification:</label>
             <select
                 onChange={(e) => {
-                    setAccountType(e.target.value);
+                    setQualification(e.target.value);
                 }}
                 value={qualification}
                 className="px-5 py-2 rounded-lg outline-none text-base border-2 border-gray-300"
