@@ -1,4 +1,4 @@
-import Home from "./pages/Home";
+import Home from "./pages/Home.jsx";
 import Login from "./pages/Login.jsx";
 import SignUp from "./pages/Signup.jsx";
 import { BrowserRouter, Routes, Route } from 'react-router';
@@ -9,7 +9,7 @@ function App() {
       <BrowserRouter>
         <div>
           <Routes>
-            <Route index path="/" element={ <Home /> } />
+            <Route index path="/home" element={ <Home /> } />
             <Route path="/login" element={ <Login /> } />
             <Route path="/signup" element={ <SignUp /> } />
           </Routes>
