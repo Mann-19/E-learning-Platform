@@ -1,4 +1,6 @@
 import Home from "./pages/Home";
+import Login from "./pages/Login.jsx";
+import SignUp from "./pages/Signup.jsx";
 import { BrowserRouter, Routes, Route } from 'react-router';
 
 function App() {
