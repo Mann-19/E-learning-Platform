@@ -78,7 +78,7 @@ const SignUp = () => {
             </select>
 
             
-            <button disabled={isLoading} className=" mt-8 bg-blue-300 text-white py-2 px-6 rounded-lg text-lg font-semibold">Login</button>
+            <button disabled={isLoading} className=" mt-8 bg-blue-500 cursor-pointer hover:bg-blue-400 text-white py-2 px-6 rounded-lg text-lg font-semibold">Login</button>
             {error && <div className="text-base text-red-400">{error}</div>}
         </form>
     );

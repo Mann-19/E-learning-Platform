@@ -21,6 +21,8 @@ export const useSignup = () => {
             setError(error.message || "Failed to create user");
             setIsLoading(false);
             return;
+        } else {
+            console.log(`New user created with email: ${data.user.email}`);
         }
 
         // add remaining data to custom users table 
