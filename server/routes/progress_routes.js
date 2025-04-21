@@ -1,5 +1,5 @@
-const express = require("express");
-const { getProgress, updateProgress } = require("../controllers/progress_controller");
+import express from "express";
+import { getProgress, updateProgress } from "../controllers/progress_controller.js";
 
 const router = express.Router();
 
@@ -17,4 +17,4 @@ router.get("/:student_id", getProgress);
  */
 router.put("/:student_id", updateProgress);
 
-module.exports = router;
+export default router;
