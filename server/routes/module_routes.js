@@ -1,6 +1,9 @@
 import express from 'express';
 import { getModules, getModule, createModule, updateModule, deleteModule } from "../controllers/module_controller.js";
 const router = express.Router();
+import requireAuth from "../middleware/auth.js";
+
+router.use(requireAuth);
 
 router.get("/", getModules);
 
