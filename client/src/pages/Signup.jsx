@@ -59,7 +59,7 @@ const SignUp = () => {
                 className="px-5 py-2 rounded-lg outline-none text-base border-2 border-gray-300"
             >
                 <option value="Student">Student</option>
-                <option value="Instructor">Instructor</option>
+                <option value="Mentor">Mentor</option>
             </select>
 
             
@@ -78,7 +78,7 @@ const SignUp = () => {
             </select>
 
             
-            <button disabled={isLoading} className=" mt-8 bg-blue-500 cursor-pointer hover:bg-blue-400 text-white py-2 px-6 rounded-lg text-lg font-semibold">Login</button>
+            <button disabled={isLoading} className=" mt-8 bg-blue-500 cursor-pointer hover:bg-blue-400 text-white py-2 px-6 rounded-lg text-lg font-semibold">Signup</button>
             {error && <div className="text-base text-red-400">{error}</div>}
         </form>
     );

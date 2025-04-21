@@ -7,7 +7,7 @@ export const useSignup = () => {
     const [isLoading, setIsLoading] = useState(false);
     const { setUser } = useAuthContext();
 
-    async function signup(email, password, name, role, qualificaiton) {
+    async function signup(email, password, name, role, qualification) {
         setIsLoading(true);
         setError(null);
 
@@ -26,15 +26,17 @@ export const useSignup = () => {
         }
 
         // add remaining data to custom users table 
-        const userId = data.user.id;
+        const id = data.user.id;
+        console.log(id);
 
         try {
             const response = await fetch('http://localhost:8000/api/users/', {
                 method: 'POST',
                 headers: {"Content-Type": 'application/json'},
-                body: JSON.stringify({ userId, name, role, qualificaiton })
+                body: JSON.stringify({ id, name, role, qualification })
             })
-            const resData = response.json();
+            const resData = await response.json();
+            console.log(resData);
 
             if(!response.ok) {
                 setError(resData?.message || "Failed to add custom user data");
@@ -44,6 +46,7 @@ export const useSignup = () => {
 
             setUser(data.user)
         } catch(e) {
+            console.log(e);
             setError("Server error while uploading data");
         }
 

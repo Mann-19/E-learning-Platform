@@ -1,7 +1,10 @@
 import { createContext, useEffect, useReducer, useState } from "react";
 import {supabase} from '../lib/supabaseClient.js';
 
-export const AuthContext = createContext();
+export const AuthContext = createContext({
+    user: null,
+    setUser: () => {},
+});
 
 export const AuthContextProvider = ({ children }) => {
     const [user, setUser] = useState(null);
@@ -26,7 +29,7 @@ export const AuthContextProvider = ({ children }) => {
         return () => listener?.subscription?.unsubscribe();
     }, [])
 
-    const value = { user };
+    const value = { user, setUser };
 
     console.log("AuthContext state: ", value);
 
