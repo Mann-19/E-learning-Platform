@@ -28,7 +28,7 @@ Built with the modern MERN stack (using PostgreSQL in place of MongoDB), this ap
   - Participate in group chats
   - Ask and solve doubts collaboratively
   
-- 🛍️**Marketplace**:  
+-  **Marketplace**:  
   - Discover and get recommendations for similar or complementary courses.
   - Personalized suggestions based on interests and activity.
 
