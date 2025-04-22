@@ -1,4 +1,4 @@
-# 📚 E-learning Platform
+# E-learning Platform
 
 An intuitive web-based E-learning Platform that bridges the gap between personalized learning and structured education. There are two primary users: Instructors and Students.
 Built with the modern MERN stack (using PostgreSQL in place of MongoDB), this app allows instructors to design customized course paths and enables students to learn at their own pace — with their progress tracked module by module.
@@ -7,7 +7,7 @@ Built with the modern MERN stack (using PostgreSQL in place of MongoDB), this ap
 
 ---
 
-## 🚀 Features
+## Features
 
 ###  For Instructors:
 - Create **custom learning paths** by organizing modules in a roadmap format.
@@ -22,7 +22,7 @@ Built with the modern MERN stack (using PostgreSQL in place of MongoDB), this ap
 - Track progress through modules with visual indicators.
 - Engage with materials uploaded by instructors seamlessly.
 
-### 🛠 Upcoming Features (WIP):
+###  Upcoming Features (WIP):
 -  **Community Page**:  
   A peer-learning space where users with similar interests can:
   - Participate in group chats
@@ -34,7 +34,7 @@ Built with the modern MERN stack (using PostgreSQL in place of MongoDB), this ap
 
 ---
 
-## 🧑‍💻 Tech Stack
+## Tech Stack
 
 ### Frontend
 - **Vite v6.2.0**
@@ -52,7 +52,7 @@ Built with the modern MERN stack (using PostgreSQL in place of MongoDB), this ap
 
 ---
 
-## 🔧 Installation (Local Development)
+## Installation (Local Development)
 
 ```bash
 # Clone the repository
