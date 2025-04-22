@@ -3,7 +3,7 @@
 An intuitive web-based E-learning Platform that bridges the gap between personalized learning and structured education. There are two primary users: Instructors and Students.
 Built with the modern MERN stack (using PostgreSQL in place of MongoDB), this app allows instructors to design customized course paths and enables students to learn at their own pace — with their progress tracked module by module.
 
-> 🏗️ This is a work-in-progress project originally conceptualized during **Smart India Hackathon 2024**.
+> This is a work-in-progress project originally conceptualized during **Smart India Hackathon 2024**.
 
 ---
 
