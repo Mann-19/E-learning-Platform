@@ -2,6 +2,7 @@ import Home from "./pages/Home.jsx";
 import Login from "./pages/Login.jsx";
 import SignUp from "./pages/Signup.jsx";
 import Course from "./pages/Course.jsx";
+import Marketplace from "./pages/Marketplace.jsx";
 import { BrowserRouter, Routes, Route } from 'react-router';
 
 function App() {
@@ -14,6 +15,7 @@ function App() {
             <Route path="/login" element={ <Login /> } />
             <Route path="/signup" element={ <SignUp /> } />
             <Route path="/course" element={ <Course /> } />
+            <Route path="/marketplace" element={ <Marketplace /> } />
           </Routes>
         </div>
       </BrowserRouter>
