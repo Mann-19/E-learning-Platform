@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useSignup } from '../hooks/useSignup.jsx';
 
 const SignUp = () => {
     const [name, setName] = useState("");
@@ -6,14 +7,17 @@ const SignUp = () => {
     const [password, setPassword] = useState("");
     const [accountType, setAccountType] = useState("");
     const [qualification, setQualification] = useState("");
-    const [error, setError] = useState("");
-    const [isLoading, setIsLoading] = useState("");
+    const { signup, isLoading, error } = useSignup();
+
+    const handleSubmit = async(e) => {
+        e.preventDefault();
+        await signup(email, password, name, accountType, qualification);
+    }
 
     return (
-        <form className="w-[30vw] my-10 mx-auto flex flex-col">
+        <form className="w-[30vw] my-10 mx-auto flex flex-col" onSubmit={handleSubmit}>
             <h3 className="text-3xl font-bold text-center mb-10">Sign Up</h3>
 
-            
             <label className="text-lg mb-1 font-semibold">Name:</label>
             <input
                 type="text"
@@ -55,7 +59,7 @@ const SignUp = () => {
                 className="px-5 py-2 rounded-lg outline-none text-base border-2 border-gray-300"
             >
                 <option value="Student">Student</option>
-                <option value="Instructor">Instructor</option>
+                <option value="Mentor">Mentor</option>
             </select>
 
             
@@ -67,14 +71,14 @@ const SignUp = () => {
                 value={qualification}
                 className="px-5 py-2 rounded-lg outline-none text-base border-2 border-gray-300"
             >
-                <option value="Undergrad">Undergrad</option>
+                <option value="Under-graduate">Undergrad</option>
                 <option value="Graduate">Graduate</option>
-                <option value="Postgrad">Postgrad</option>
+                <option value="Post-graduate">Postgrad</option>
                 <option value="PhD">PhD</option>
             </select>
 
             
-            <button disabled={isLoading} className=" mt-8 bg-blue-300 text-white py-2 px-6 rounded-lg text-lg font-semibold">Login</button>
+            <button disabled={isLoading} className=" mt-8 bg-blue-500 cursor-pointer hover:bg-blue-400 text-white py-2 px-6 rounded-lg text-lg font-semibold">Signup</button>
             {error && <div className="text-base text-red-400">{error}</div>}
         </form>
     );
