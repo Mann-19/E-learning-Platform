@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useSignup } from '../hooks/useSignUp';
+import { useSignup } from '../hooks/useSignup.jsx';
 
 const SignUp = () => {
     const [name, setName] = useState("");

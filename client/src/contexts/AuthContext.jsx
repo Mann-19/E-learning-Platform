@@ -4,10 +4,13 @@ import {supabase} from '../lib/supabaseClient.js';
 export const AuthContext = createContext({
     user: null,
     setUser: () => {},
+    role: null,
+    setRole: () => {},
 });
 
 export const AuthContextProvider = ({ children }) => {
     const [user, setUser] = useState(null);
+    const [role, setRole] = useState(null);
     
     useEffect(() => {
 
@@ -15,23 +18,26 @@ export const AuthContextProvider = ({ children }) => {
         const getCurrentSession = async() => {
             const { data: {session} } = await supabase.auth.getSession();
 
-            setUser(session?.user || null);
+            const currentUser = session?.user || null;
+            setUser(currentUser);
+            setRole(currentUser?.user_metadata?.role || "none");
         }
         getCurrentSession();
 
         // watches for auth state changes
         const { data: {listener}} = supabase.auth.onAuthStateChange((event, session) => {
-            console.log("Event: ", event);
-            console.log("Session: ", session);
-            setUser(session?.user || null);
+            const authUser = session?.user || null;
+            setUser(authUser);
+            setRole(authUser?.user_metadata?.role || "none");
         });
-
+        
+        
         return () => listener?.subscription?.unsubscribe();
     }, [])
-
-    const value = { user, setUser };
-
-    console.log("AuthContext state: ", value);
+    
+    const value = { user, setUser, role, setRole };
+    
+    console.log("AuthContext state: ", {user, role});
 
     return(
         <AuthContext.Provider value={value}>

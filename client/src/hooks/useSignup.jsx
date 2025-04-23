@@ -5,7 +5,7 @@ import { supabase } from "../lib/supabaseClient";
 export const useSignup = () => {
     const [error, setError] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
-    const { setUser } = useAuthContext();
+    const { setUser, setRole } = useAuthContext();
 
     async function signup(email, password, name, role, qualification) {
         setIsLoading(true);
@@ -15,6 +15,11 @@ export const useSignup = () => {
         const { data, error } = await supabase.auth.signUp({
             email: email,
             password: password,
+            options:{
+                data: {
+                    role: role
+                }
+            }
         })
 
         if(error) {
@@ -45,6 +50,7 @@ export const useSignup = () => {
             }
 
             setUser(data.user)
+            setRole(data.user?.user_metadata?.role);
         } catch(e) {
             console.log(e);
             setError("Server error while uploading data");

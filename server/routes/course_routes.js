@@ -1,6 +1,7 @@
 import express from "express";
 import { getCourse, getCourses, createCourse, updateCourse, deleteCourse } from "../controllers/course_controller.js";
 import requireAuth from '../middleware/auth.js';
+import checkRole from '../middleware/checkRole.js';
 
 const router = express.Router();
 
@@ -14,12 +15,12 @@ router.get("/", getCourses);
 router.get("/:id", getCourse);
 
 // create a new course
-router.post("/", createCourse);
+router.post("/", checkRole(["Mentor"]), createCourse);
 
 // update an existing course
-router.put("/:id", updateCourse);
+router.put("/:id", checkRole(["Mentor"]), updateCourse);
 
 // delete a course
-router.delete("/:id", deleteCourse);
+router.delete("/:id",checkRole(["Mentor"]), deleteCourse);
 
 export default router;

@@ -13,7 +13,13 @@ async function requireAuth(req, res, next) {
 
         if(error || !data) return res.status(401).json({ error: "Unauthorized" });
 
-        req.user = data;
+        const user = data.user;
+        req.user = {
+            id: user.id,
+            email: user.email,
+            role: user.user_metadata?.role || null,
+        }
+        
         next();
     } catch(error) {
         console.log(error);
