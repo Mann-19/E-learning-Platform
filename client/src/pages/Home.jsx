@@ -1,9 +1,9 @@
 import Sidebar from "../components/Sidebar";
 import CourseTile from "../components/CourseTile";
+import LoadingSpinner from "../components/LoadingSpinner";
 import { useEffect, useState } from "react";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { Link } from "react-router";
-import ProgressChart from "../components/ProgressChart";
 
 const Home = () => {
   const [courses, setCourses] = useState([]);
@@ -45,21 +45,26 @@ const Home = () => {
           <div className="flex flex-col gap-5">
             <h3 className="text-2xl font-bold text-[#A0A0A0] flex justify-between">
               <span className="font-bold">Your Roadmaps</span>
-              <Link to={`/course`} className="text-base font-normal mr-2 underline">See all</Link>
+              <Link
+                to={`/course`}
+                className="text-base font-normal mr-2 underline"
+              >
+                See all
+              </Link>
             </h3>
-            {loading ? (
-              <p className="text-black">Loading...</p>
-            ) : (
-              courses.map((course) => (
-                <CourseTile key={course.id} course={course} />
-              ))
-            )}
+            <div className="flex flex-col gap-4">
+              {loading ? (
+                <LoadingSpinner />
+              ) : (
+                courses.map((course) => (
+                  <CourseTile key={course.id} course={course} />
+                ))
+              )}
+            </div>
           </div>
         </section>
 
-        <section>
-          {/* <ProgressChart /> */}
-        </section>
+        <section>{/* <ProgressChart /> */}</section>
       </main>
     </div>
   );
