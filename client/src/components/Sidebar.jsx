@@ -1,8 +1,11 @@
 import { NavLink } from "react-router";
 import { useAuthContext } from "../hooks/useAuthContext";
+import useLogout from '../hooks/useLogout';
 
 const Sidebar = () => {
   const { user } = useAuthContext();
+  const { logout } = useLogout();
+
   return (
     <div className="min-w-[20vw] max-w-[20vw] bg-primary-accent h-screen flex flex-col justify-between p-6 text-black font-league">
       <div>
@@ -38,7 +41,8 @@ const Sidebar = () => {
           Settings
         </NavLink>
         <button
-          className="text-xl text-black font-semibold px-6 py-2 text-left"
+          onClick={logout}
+          className="text-xl cursor-pointer text-black font-semibold px-6 py-2 text-left"
         >
           Log Out
         </button>
