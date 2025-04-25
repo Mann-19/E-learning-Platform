@@ -18,8 +18,8 @@ function App() {
             <Route index path="/" element={user ? <Home /> : <Navigate to={'/login'} /> } />
             <Route path="/login" element={!user ? <Login /> : <Navigate to={'/'} /> } />
             <Route path="/signup" element={!user ? <SignUp /> : <Navigate to={'/'} /> } />
-            <Route path="/course" element={user ? <Course /> : <Navigate to={'/'} /> } />
-            <Route path="/marketplace" element={user ? <Marketplace /> : <Navigate to={'/'} /> } />
+            <Route path="/course" element={user ? <Course /> : <Navigate to={'/login'} /> } />
+            <Route path="/marketplace" element={user ? <Marketplace /> : <Navigate to={'/login'} /> } />
           </Routes>
         </div>
       </BrowserRouter>
