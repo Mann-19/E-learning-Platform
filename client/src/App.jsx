@@ -3,9 +3,10 @@ import Login from "./pages/Login";
 import SignUp from "./pages/Signup";
 import Course from "./pages/Course.jsx";
 import Marketplace from "./pages/Marketplace.jsx";
-import { useAuthContext } from './hooks/useAuthContext';
+import ProtectedRoute from "./components/ProtectedRoute.jsx";
+import { useAuthContext } from "./hooks/useAuthContext";
 
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router';
+import { BrowserRouter, Routes, Route, Navigate } from "react-router";
 
 function App() {
   const { user } = useAuthContext();
@@ -15,16 +16,46 @@ function App() {
       <BrowserRouter>
         <div>
           <Routes>
-            <Route index path="/" element={user ? <Home /> : <Navigate to={'/login'} /> } />
-            <Route path="/login" element={!user ? <Login /> : <Navigate to={'/'} /> } />
-            <Route path="/signup" element={!user ? <SignUp /> : <Navigate to={'/'} /> } />
-            <Route path="/course" element={user ? <Course /> : <Navigate to={'/login'} /> } />
-            <Route path="/marketplace" element={user ? <Marketplace /> : <Navigate to={'/login'} /> } />
+            <Route
+              index
+              path="/"
+              element={
+                <ProtectedRoute allowedRoles={["Mentor", "Student"]}>
+                  <Home />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/login"
+              element={!user ? <Login /> : <Navigate to={"/"} />}
+            />
+            <Route
+              path="/signup"
+              element={!user ? <SignUp /> : <Navigate to={"/"} />}
+            />
+
+            <Route
+              path="/course"
+              element={
+                <ProtectedRoute allowedRoles={["Mentor", "Student"]}>
+                  <Course />
+                </ProtectedRoute>
+              }
+            />
+
+            <Route
+              path="/marketplace"
+              element={
+                <ProtectedRoute allowedRoles={["Mentor", "Student"]}>
+                  <Marketplace />
+                </ProtectedRoute>
+              }
+            />
           </Routes>
         </div>
       </BrowserRouter>
     </>
-  )
+  );
 }
 
 export default App;
