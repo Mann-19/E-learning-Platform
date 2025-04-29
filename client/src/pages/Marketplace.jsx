@@ -1,16 +1,34 @@
 import { useEffect, useState } from "react";
 import CourseCard from "../components/CourseCard(Marketplace)";
+import LoadingSpinner from '../components/LoadingSpinner';
+import { useAuthContext } from "../hooks/useAuthContext";
 
 export default function Marketplace() {
   const [courses, setCourses] = useState([]);
   const [search, setSearch] = useState("");
+  const [loading, setLoading] = useState(true);
+  const { user, session } = useAuthContext();
 
   useEffect(() => {
-    // Fetch courses from backend API
-    fetch("http://localhost:5000/api/courses") // adjust this to your actual backend route
-      .then((res) => res.json())
-      .then((data) => setCourses(data))
-      .catch((err) => console.error("Error fetching courses:", err));
+    async function fetchCourses() {
+      try {
+        const res = await fetch("http://localhost:8000/api/courses", {
+          headers: {
+            Authorization: `Bearer ${session?.access_token}`,
+          },
+        });
+        const data = await res.json();
+        if (res.ok) setCourses(data);
+      } catch (error) {
+        console.error("Failed to fetch courses:", error);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    if (user) {
+      fetchCourses();
+    }
   }, []);
 
   const filteredCourses = courses.filter(course =>
@@ -33,11 +51,16 @@ export default function Marketplace() {
         />
       </div>
 
+      {loading ? 
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+        <LoadingSpinner />
+      </div> :
       <div className="space-y-4">
         {filteredCourses.map((course) => (
           <CourseCard key={course.id} course={course} />
         ))}
       </div>
+      }
     </div>
   );
 }
