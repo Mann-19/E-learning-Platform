@@ -6,17 +6,20 @@ export const AuthContext = createContext({
     setUser: () => {},
     role: null,
     setRole: () => {},
+    session: null
 });
 
 export const AuthContextProvider = ({ children }) => {
     const [user, setUser] = useState(null);
     const [role, setRole] = useState(null);
+    const [session, setSession] = useState(null)
     
     useEffect(() => {
 
         // gets current session to check is a user has an active session
         const getCurrentSession = async() => {
             const { data: {session} } = await supabase.auth.getSession();
+            setSession(session);
 
             const currentUser = session?.user || null;
             setUser(currentUser);
@@ -26,6 +29,8 @@ export const AuthContextProvider = ({ children }) => {
 
         // watches for auth state changes
         const { data: {listener}} = supabase.auth.onAuthStateChange((event, session) => {
+            setSession(session);
+
             const authUser = session?.user || null;
             setUser(authUser);
             setRole(authUser?.user_metadata?.role || "none");
@@ -35,7 +40,7 @@ export const AuthContextProvider = ({ children }) => {
         return () => listener?.subscription?.unsubscribe();
     }, [])
     
-    const value = { user, setUser, role, setRole };
+    const value = { user, setUser, role, setRole, session };
     
     console.log("AuthContext state: ", {user, role});
 
