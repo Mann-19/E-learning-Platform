@@ -33,7 +33,7 @@ const Home = () => {
   }, []);
 
   return (
-    <div className=" text-3xl h-[100vh] flex">
+    <div className="text-3xl h-[100vh] flex">
       <Sidebar />
 
       <main className="px-20 py-10 flex bg-[#262626] w-full h-full font-league">
@@ -57,7 +57,9 @@ const Home = () => {
                 <LoadingSpinner />
               ) : (
                 courses.map((course) => (
-                  <CourseTile key={course.id} course={course} />
+                  <Link to={`/course/${course.id}`} key={course.id} className="w-full">
+                    <CourseTile course={course} />
+                  </Link>
                 ))
               )}
             </div>
@@ -69,4 +71,5 @@ const Home = () => {
     </div>
   );
 };
+
 export default Home;
