@@ -1,4 +1,4 @@
-import { NavLink } from "react-router";
+import { NavLink, } from "react-router";
 import { useAuthContext } from "../hooks/useAuthContext";
 import useLogout from '../hooks/useLogout';
 
@@ -8,8 +8,8 @@ const Sidebar = () => {
 
   return (
     <div className="min-w-[20vw] max-w-[20vw] bg-primary-accent h-screen flex flex-col justify-between p-6 text-black font-league">
-      <div>
-        <h1 className="text-3xl font-extrabold text-center mt-4">EduMarg</h1>
+      <div className="flex flex-col">
+        <NavLink to={'/'} className="text-3xl font-extrabold text-center mt-4">EduMarg</NavLink>
         <span className="text-base text-center font-regular">{user?.email}</span>
       </div>
 

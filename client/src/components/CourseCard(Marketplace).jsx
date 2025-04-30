@@ -7,7 +7,7 @@ export default function CourseCard({ course }) {
         <div className="w-24 h-24 bg-gray-100 rounded-xl shrink-0" />
         <div>
           <h2 className="text-lg font-semibold">{course.title}</h2>
-          <p className="text-gray-600">by Professor PoopyPants</p>
+          <p className="text-gray-600">by {course.User?.name}</p>
           <p className="text-sm text-gray-500 mt-1 line-clamp-2">{course.desc}</p>
         </div>
       </div>
