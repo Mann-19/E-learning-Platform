@@ -1,15 +1,26 @@
 import { useEffect, useState } from "react";
 import ModuleTile from "../components/ModuleTile";
 import Stepper from "../components/Stepper";
+import { useAuthContext } from "../hooks/useAuthContext";
+import LoadingSpinner from "../components/LoadingSpinner";
+import Sidebar from "../components/Sidebar";
 
 const Course = ({ courseId }) => {
   const [modules, setModules] = useState([]);
   const [loading, setLoading] = useState(true);
+  const { user, session } = useAuthContext();
 
   useEffect(() => {
     async function fetchModules() {
       try {
-        const res = await fetch(`http://localhost:8000/api/modules?course_id=${courseId}`);
+        const res = await fetch(
+          `http://localhost:8000/api/modules?course_id=${courseId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${session?.access_token}`,
+            },
+          }
+        );
         const data = await res.json();
         if (res.ok) setModules(data);
       } catch (error) {
@@ -23,27 +34,33 @@ const Course = ({ courseId }) => {
   }, [courseId]);
 
   return (
-    <div className="min-h-screen bg-white p-10">
-      <h2 className="text-2xl font-bold mb-6 text-gray-800">Course Modules</h2>
+    <section className="flex">
+      <Sidebar />
 
-      {loading ? (
-        <p className="text-gray-500">Loading modules...</p>
-      ) : (
-        <div className="flex flex-col md:flex-row gap-10">
-          {/* Left: Modules List */}
-          <div className="flex-1 flex flex-col gap-4 max-w-md">
-            {modules.map((module) => (
-              <ModuleTile key={module.id} module={module} />
-            ))}
-          </div>
+      <div className="bg-white p-10 w-full max-h-full">
+        <h2 className="text-3xl font-bold mb-6 text-text-yellow">
+          Course Modules
+        </h2>
 
-          {/* Right: Stepper */}
-          <div className="w-full md:w-1/3">
-            <Stepper modules={modules} />
+        {loading ? (
+          <LoadingSpinner />
+        ) : (
+          <div className="flex gap-12">
+            {/* Left: Modules List */}
+            <div className="flex-1 flex flex-col gap-8 max-w-md">
+              {modules.map((module) => (
+                <ModuleTile key={module.id} module={module} />
+              ))}
+            </div>
+
+            {/* Right: Stepper */}
+            <div className="w-max">
+              {/* <Stepper modules={modules} /> */}
+            </div>
           </div>
-        </div>
-      )}
-    </div>
+        )}
+      </div>
+    </section>
   );
 };
 

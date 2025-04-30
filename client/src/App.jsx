@@ -35,7 +35,7 @@ function App() {
             />
 
             <Route
-              path="/course"
+              path={`/course/:id`}
               element={
                 <ProtectedRoute allowedRoles={["Mentor", "Student"]}>
                   <Course />

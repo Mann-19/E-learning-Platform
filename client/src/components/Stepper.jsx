@@ -6,8 +6,8 @@ import empty from '../assets/checkpoint_empty.svg';
 
 const Stepper = ({ modules, activeStep = 0 }) => {
   return (
-    <div className="bg-white shadow-md rounded-xl p-6 w-full max-w-sm">
-      <div className="flex flex-col items-start relative space-y-6">
+    <div className="bg-white shadow-md rounded-xl p-6 w-[300px]">
+      <div className="flex flex-col items-start relative">
         {modules.map((module, index) => {
           const isFirst = index === 0;
           const isActive = index === activeStep;
