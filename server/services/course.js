@@ -17,7 +17,7 @@ export async function getCourseById(courseId) {
 export async function getAllCourses() {
     const { data, error } = await supabase
         .from('Course')
-        .select('*');
+        .select('*, User(id, name)');
     
     if (error) throw new Error(`Error fetching courses: ${error.message}`);
     return data;

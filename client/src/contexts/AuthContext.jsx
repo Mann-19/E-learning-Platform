@@ -6,13 +6,15 @@ export const AuthContext = createContext({
     setUser: () => {},
     role: null,
     setRole: () => {},
-    session: null
+    session: null,
+    loading: true
 });
 
 export const AuthContextProvider = ({ children }) => {
     const [user, setUser] = useState(null);
     const [role, setRole] = useState(null);
-    const [session, setSession] = useState(null)
+    const [session, setSession] = useState(null);
+    const [loading, setLoading] = useState(true);
     
     useEffect(() => {
 
@@ -24,6 +26,7 @@ export const AuthContextProvider = ({ children }) => {
             const currentUser = session?.user || null;
             setUser(currentUser);
             setRole(currentUser?.user_metadata?.role || "none");
+            setLoading(false);
         }
         getCurrentSession();
 
@@ -40,7 +43,7 @@ export const AuthContextProvider = ({ children }) => {
         return () => listener?.subscription?.unsubscribe();
     }, [])
     
-    const value = { user, setUser, role, setRole, session };
+    const value = { user, setUser, role, setRole, session, loading };
     
     console.log("AuthContext state: ", {user, role});
 
