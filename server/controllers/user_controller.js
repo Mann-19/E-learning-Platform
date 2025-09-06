@@ -29,13 +29,14 @@ const getUsers = async (req, res) => {
 // Create a new user function
 const createUser = async (req, res) => {
     try {
-        const { id, name, role, qualification } = req.body;
+        const { name, email, password } = req.body;
+        console.log({name, email, password});
         
-        if (!id || !name || !role || !qualification) {
+        if (!name || !email || !password) {
             return res.status(400).json({ message: "Invalid data" });
-        }   
+        }
 
-        const newUser = await createNewUser({ id, name, role, qualification });
+        const newUser = await createNewUser({ name, email, password });
         if (!newUser) {
             return res.status(400).json({ message: "Error creating user" });
         }

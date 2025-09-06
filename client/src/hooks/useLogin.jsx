@@ -4,27 +4,22 @@ import { supabase } from "../lib/supabaseClient";
 
 export const useLogin = () => {
     const [error, setError] = useState(null);
-    const [isLoading, setIsLoading] = useState(false);
-    const { setUser } = useAuthContext();
+    const { dispatch } = useAuthContext();
 
-    async function login(email, password) {
-        setIsLoading(true);
+    async function login({ email, password }) {
         setError(null);
-
+        console.log({ email, password });
         const { data, error } = await supabase.auth.signInWithPassword({
             email: email,
             password: password
-        })
+        });
+        console.log(data?.user?.id);
 
         if(error) {
-            setError("Error :", error.message);
-            setIsLoading(false);
+            setError("Failed to login :" + error.message);
             return;
         }
-
-        setUser(data.user);
-        setIsLoading(false);
     }
 
-    return { login, isLoading, error}
+    return { login, error}
 }

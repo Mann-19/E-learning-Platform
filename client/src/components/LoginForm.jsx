@@ -1,18 +1,23 @@
 import { Link } from "react-router";
 import { useLogin } from "../hooks/useLogin";
 import { useState } from "react";
+import { useAuthContext } from "../hooks/useAuthContext";
 
 const LoginForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
   const [passwordVisible, setPasswordVisible] = useState(false);
-  const { login, error, isLoading } = useLogin();
+
+  const { login, error } = useLogin();
+  const { state } = useAuthContext();
 
   const toggleVisibility = () => {setPasswordVisible((prev) => !prev)};
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await login(email, password);
+    console.log({ email, password });
+    await login({ email, password });
   };
 
   return (
@@ -53,7 +58,7 @@ const LoginForm = () => {
         </span>
 
         <button
-          disabled={isLoading}
+          disabled={state?.isLoading}
           type="submit"
           className="bg-primary-accent text-white rounded-xl w-full mt-6 py-2 text-lg font-semibold cursor-pointer hover:bg-primary-accent/80"
         >

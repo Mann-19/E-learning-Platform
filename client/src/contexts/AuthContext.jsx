@@ -1,55 +1,52 @@
 import { createContext, useEffect, useReducer, useState } from "react";
-import {supabase} from '../lib/supabaseClient.js';
+import { supabase } from "../lib/supabaseClient.js";
 
-export const AuthContext = createContext({
-    user: null,
-    setUser: () => {},
-    role: null,
-    setRole: () => {},
-    session: null,
-    loading: true
-});
+// Set an initial state
+const initialState = {
+  user: null,
+  isLoading: true,
+};
+
+// Create a context
+export const AuthContext = createContext();
+
+// Reducer function to manage state and dispatch actions
+function authReducer(state, action) {
+  switch (action.type) {
+    case "SET_USER":
+      return { ...state, user: action.payload, isLoading: false };
+    case "LOGOUT":
+      return { user: null, isLoading: false };
+    default:
+      return state;
+  }
+}
 
 export const AuthContextProvider = ({ children }) => {
-    const [user, setUser] = useState(null);
-    const [role, setRole] = useState(null);
-    const [session, setSession] = useState(null);
-    const [loading, setLoading] = useState(true);
-    
-    useEffect(() => {
+  const [state, dispatch] = useReducer(authReducer, initialState);
 
-        // gets current session to check is a user has an active session
-        const getCurrentSession = async() => {
-            const { data: {session} } = await supabase.auth.getSession();
-            setSession(session);
+  // Check user on mount
+  useEffect(() => {
+    // gets current session to check is a user has an active session
+    const getCurrentSession = async () => {
+      const { data } = await supabase.auth.getSession();
+      dispatch({ type: "SET_USER", payload: data?.session?.user || null });
+    };
+    getCurrentSession();
 
-            const currentUser = session?.user || null;
-            setUser(currentUser);
-            setRole(currentUser?.user_metadata?.role || "none");
-            setLoading(false);
-        }
-        getCurrentSession();
+    // watches for auth state changes
+    const { data: listener } = supabase.auth.onAuthStateChange(
+      (_event, session) => {
+        dispatch({ type: 'SET_USER', payload: session?.user || null });
+      }
+    );
 
-        // watches for auth state changes
-        const { data: {listener}} = supabase.auth.onAuthStateChange((event, session) => {
-            setSession(session);
+    return () => listener?.subscription?.unsubscribe();
+  }, []);
 
-            const authUser = session?.user || null;
-            setUser(authUser);
-            setRole(authUser?.user_metadata?.role || "none");
-        });
-        
-        
-        return () => listener?.subscription?.unsubscribe();
-    }, [])
-    
-    const value = { user, setUser, role, setRole, session, loading };
-    
-    console.log("AuthContext state: ", {user, role});
+  const value = { state, dispatch };
 
-    return(
-        <AuthContext.Provider value={value}>
-            { children }
-        </AuthContext.Provider>
-    )
-}
+  console.log("AuthContext state: ", state.user);
+
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+};

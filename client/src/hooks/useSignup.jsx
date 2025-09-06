@@ -4,60 +4,33 @@ import { supabase } from "../lib/supabaseClient";
 
 export const useSignup = () => {
     const [error, setError] = useState(null);
-    const [isLoading, setIsLoading] = useState(false);
-    const { setUser, setRole } = useAuthContext();
+    const { dispatch } = useAuthContext();
 
-    async function signup(email, password, name, role, qualification) {
-        setIsLoading(true);
+    async function signup({ name, email, password }) {
+        console.log({name, email, password});
         setError(null);
-
-        // create a supabase auth user
-        const { data, error } = await supabase.auth.signUp({
-            email: email,
-            password: password,
-            options:{
-                data: {
-                    role: role
-                }
-            }
-        })
-
-        if(error) {
-            setError(error.message || "Failed to create user");
-            setIsLoading(false);
-            return;
-        } else {
-            console.log(`New user created with email: ${data.user.email}`);
-        }
-
-        // add remaining data to custom users table 
-        const id = data.user.id;
-        console.log(id);
 
         try {
             const response = await fetch('http://localhost:8000/api/users/', {
                 method: 'POST',
                 headers: {"Content-Type": 'application/json'},
-                body: JSON.stringify({ id, name, role, qualification })
+                body: JSON.stringify({ name, email, password })
             })
             const resData = await response.json();
             console.log(resData);
 
+            
             if(!response.ok) {
-                setError(resData?.message || "Failed to add custom user data");
-                setIsLoading(false);
+                setError(resData?.message);
                 return;
             }
-
-            setUser(data.user)
-            setRole(data.user?.user_metadata?.role);
+            
+            dispatch({ type: 'SET_USER', payload: resData });
         } catch(e) {
             console.log(e);
             setError("Server error while uploading data");
         }
-
-        setIsLoading(false);
     }
 
-    return { signup, isLoading, error}
+    return { signup, error }
 }

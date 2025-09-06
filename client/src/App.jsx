@@ -9,7 +9,8 @@ import { useAuthContext } from "./hooks/useAuthContext";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router";
 
 function App() {
-  const { user } = useAuthContext();
+  const { state } = useAuthContext();
+  const user = state?.user || null;
 
   return (
     <>
@@ -20,9 +21,7 @@ function App() {
               index
               path="/"
               element={
-                <ProtectedRoute allowedRoles={["Mentor", "Student"]}>
-                  <Home />
-                </ProtectedRoute>
+                  user ? <Home /> : <Navigate to={'/login'} />
               }
             />
             <Route
