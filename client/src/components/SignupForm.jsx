@@ -23,10 +23,6 @@ const SignupForm = () => {
     await signup({name, email, password});
   };
 
-  useEffect(() => {
-    console.log({name, email, password});
-  }, [name, email, password]);
-
   return (
     <section className="flex flex-col items-center justify-center max-w-[50%] min-w-[50%]">
       <form

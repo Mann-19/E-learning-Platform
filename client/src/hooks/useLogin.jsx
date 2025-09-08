@@ -1,10 +1,8 @@
 import { useState } from "react";
-import { useAuthContext } from './useAuthContext';
 import { supabase } from "../lib/supabaseClient";
 
 export const useLogin = () => {
     const [error, setError] = useState(null);
-    const { dispatch } = useAuthContext();
 
     async function login({ email, password }) {
         setError(null);
