@@ -8,7 +8,7 @@ import { Link } from "react-router";
 const Home = () => {
   const [courses, setCourses] = useState([]);
   const [loading, setLoading] = useState(true);
-  const { user, session } = useAuthContext();
+  const { state } = useAuthContext();
 
   useEffect(() => {
     async function fetchCourses() {
@@ -27,7 +27,7 @@ const Home = () => {
       }
     }
 
-    if (user) {
+    if (state.user) {
       fetchCourses();
     }
   }, []);

@@ -3,9 +3,9 @@ import LoadingSpinner from "./LoadingSpinner";
 import { useAuthContext } from "../hooks/useAuthContext";
 
 const ProtectedRoute = ({ allowedRoles, children }) => {
-  const { user, role, loading } = useAuthContext();
+  const { state } = useAuthContext();
 
-  if(loading) return (
+  if(state.isLoading) return (
     <div>
       <LoadingSpinner />
     </div>
@@ -13,7 +13,7 @@ const ProtectedRoute = ({ allowedRoles, children }) => {
 
   if (!allowedRoles.includes(role)) return <Navigate to="/" replace />;
 
-  return user ? children : <Navigate to={"/login"} /> ;
+  return state.user ? children : <Navigate to={"/login"} /> ;
 };
 
 export default ProtectedRoute;

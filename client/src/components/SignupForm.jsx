@@ -1,24 +1,26 @@
 import { useSignup } from "../hooks/useSignup";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router";
-import LoadingSpinner from '../components/LoadingSpinner';
+import LoadingSpinner from "../components/LoadingSpinner";
+import { useAuthContext } from "../hooks/useAuthContext";
 
 const SignupForm = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [accountType, setAccountType] = useState("");
-  const [qualification, setQualification] = useState("");
-  const { signup, isLoading, error } = useSignup();
+
+  const { signup, error } = useSignup();
+  const { state } = useAuthContext();
 
   const [passwordVisible, setPasswordVisible] = useState(true);
+
   const toggleVisibility = () => {
     setPasswordVisible((prev) => !prev);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await signup(email, password, name, accountType, qualification);
+    await signup({name, email, password});
   };
 
   return (
@@ -27,6 +29,7 @@ const SignupForm = () => {
         className="flex flex-col items-center justify-center w-[60%]"
         onSubmit={handleSubmit}
       >
+        {/* Header */}
         <div className="flex flex-col items-center gap-2 mb-10">
           <h3 className="text-3xl font-extrabold text-primary-accent">
             Sign Up
@@ -36,6 +39,7 @@ const SignupForm = () => {
           </Link>
         </div>
 
+        {/* Name */}
         <input
           type="text"
           onChange={(e) => {
@@ -46,6 +50,7 @@ const SignupForm = () => {
           className="border-2 border-primary-accent rounded-xl w-full px-6 py-1.5 outline-none"
         />
 
+        {/* Email */}
         <input
           type="email"
           onChange={(e) => {
@@ -56,6 +61,7 @@ const SignupForm = () => {
           className="border-2 border-primary-accent rounded-xl w-full px-6 py-1.5 outline-none mt-3"
         />
 
+        {/* Password */}
         <div className="border-2 border-primary-accent rounded-xl w-full mt-4 px-6 py-1.5 flex justify-between">
           <input
             type={passwordVisible ? "text" : "password"}
@@ -69,65 +75,25 @@ const SignupForm = () => {
           </span>
         </div>
 
-        <div className="flex justify-between px-6 items-center w-full mt-4 border-2 border-primary-accent py-2 rounded-xl">
-          <label className="text-base text-gray-500 min-w-max font-regular">
-            Account Type:
-          </label>
-          <div className="flex items-center justify-around w-full">
-            <label className="flex justify-center items-center gap-3">
-              <input
-                type="radio"
-                name="accountType"
-                value="Student"
-                checked={accountType === "Student"}
-                onChange={(e) => setAccountType(e.target.value)}
-                className="h-4 w-4 mt-0.5"
-              />
-              <span className="">Student</span>
-            </label>
-
-            <label className="flex justify-center items-center gap-3">
-              <input
-                type="radio"
-                name="accountType"
-                value="Mentor"
-                checked={accountType === "Mentor"}
-                onChange={(e) => setAccountType(e.target.value)}
-                className="h-4 w-4 mt-0.5"
-              />
-              <span className="">Mentor</span>
-            </label>
-          </div>
-        </div>
-
-        {/* <label className="">Qualification:</label> */}
-        <select
-          onChange={(e) => {
-            setQualification(e.target.value);
-          }}
-          value={qualification}
-          className="border-2 border-primary-accent mt-4 px-4 py-2 w-full rounded-xl text-gray-500"
-        >
-          <option value="Under-graduate">Undergrad</option>
-          <option value="Graduate">Graduate</option>
-          <option value="Post-graduate">Postgrad</option>
-          <option value="PhD">PhD</option>
-        </select>
-
-          {isLoading ? 
-          <LoadingSpinner /> : 
+          {/* Submit button */}
+        {state.isLoading ? (
+          <LoadingSpinner />
+        ) : (
           <button
-          disabled={isLoading}
-          className="bg-primary-accent text-white rounded-xl w-full mt-6 py-2 text-lg font-semibold cursor-pointer hover:bg-primary-accent/80"
-        >
-          Signup
-        </button> }
-        
+            disabled={state.isLoading}
+            className="bg-primary-accent text-white rounded-xl w-full mt-6 py-2 text-lg font-semibold cursor-pointer hover:bg-primary-accent/80"
+          >
+            Signup
+          </button>
+        )}
+
+        {/* Error line */}
         {error && (
           <div className="text-sm text-red-400 italic font-medium">{error}</div>
         )}
       </form>
 
+        {/* Divider */}
       <div className="w-[60%] flex justify-between items-center mt-5">
         <div className="w-[40%] border-1 border-gray-400"></div>
         <span className="text-gray-400">OR</span>

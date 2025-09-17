@@ -3,7 +3,7 @@ import supabase from '../config/database.js';
 // GET a single user service
 export async function getUserById(userId) {
   const { data, error } = await supabase
-    .from('User')
+    .from('profile')
     .select('*')
     .eq('id', userId)
     .single();
@@ -30,17 +30,30 @@ export async function getAllUsers() {
 
 // POST a new user service
 export async function createNewUser(userData) {
+  // signup user to supabase auth
+  const { data: authData, error: authError } = await supabase.auth.signUp({
+    email: userData.email,
+    password: userData.password
+  });
+  if(authError) {
+    throw new Error("Error creating user: ", authError.message);
+  }
+  console.log("SERVICE - CREATE USER: supabase signup completed: ", authData);
+
   const { data, error } = await supabase
-    .from('User')
-    .insert([userData])
+    .from('profile')
+    .insert({
+      full_name: userData.name,
+      email: userData.email
+    })
     .select()
     .single();
 
   if (error) {
-    throw new Error(`Error creating user: ${error.message}`);
+    throw new Error(`Error updating profile: ${error.message}`);
   }
 
-  console.log(data);
+  console.log("Profile updated successfully: ", data);
   return data;
 }
 
