@@ -4,6 +4,7 @@ import Profile from "./pages/Profile.jsx";
 import ProtectedRoute from "./components/ProtectedRoute.jsx";
 import { useAuthContext } from "./hooks/useAuthContext";
 import CreateCourse from "./pages/CreateCourse.jsx";
+import { Toaster } from 'react-hot-toast';
 
 import { BrowserRouter, Routes, Route, Navigate } from "react-router";
 
@@ -46,6 +47,8 @@ function App() {
             />
           </Routes>
         </div>
+
+        <Toaster position="top-center" toastOptions={{duration: 3000}} />
       </BrowserRouter>
     </>
   );

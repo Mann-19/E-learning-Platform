@@ -2,33 +2,45 @@ import Navbar from "../components/Navbar";
 import EditableField from "../components/EditableField";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { supabase } from "../lib/supabaseClient";
-import { useState } from 'react';
+import { useState } from "react";
+import toast from 'react-hot-toast';
+import { useNavigate } from "react-router";
 
 const CreateCourse = () => {
   const [courseTitle, setCourseTitle] = useState("Course Title");
   const [description, setDescription] = useState("Description");
   const { state } = useAuthContext();
+  const navigate = useNavigate();
 
-  const handleSave = async() => {
+  const handleCreateCourse = async () => {
     const courseData = {
       title: courseTitle,
       description: description,
-      instructor_id: state.user?.id
-    }
+      instructor_id: state.user?.id,
+    };
 
-    const { data, error } = await supabase
-      .from('courses')
-      .update(courseData)
-      .eq("id", courseId)
-  }
+    const { data: courses, error } = await supabase
+      .from("courses")
+      .insert([courseData])
+      .select();
+
+    if(!error) {
+      console.log("Course created successfully: ", courses);
+      toast.success("Created course successfully");
+      navigate('/profile');
+    } else {
+      toast.error('Error creating course: ', error);
+    }
+  };
 
   return (
     <div className="">
       <Navbar />
 
-      <h2 className="ml-10 mt-10 text-base text-gray-500 underline">Create a course</h2>
+      <h2 className="ml-10 mt-10 text-base text-gray-500 underline">
+        Create a course
+      </h2>
       <section className="p-10">
-
         {/* Title */}
         <div className="flex justify-between">
           <EditableField
@@ -38,7 +50,9 @@ const CreateCourse = () => {
             placeholder="Enter course title"
           />
 
-          <button className="bg-yellow-300 px-4 py-2 rounded-sm font-medium text-black/80 cursor-pointer">Create Course</button>
+          <button onClick={handleCreateCourse} className="bg-yellow-300 px-4 py-2 rounded-sm font-medium text-black/80 cursor-pointer">
+            Create Course
+          </button>
         </div>
 
         {/* Description */}
@@ -55,7 +69,6 @@ const CreateCourse = () => {
           Module editing coming soon...
         </div>
       </section>
-
     </div>
   );
 };
