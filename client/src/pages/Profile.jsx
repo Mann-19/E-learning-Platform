@@ -1,16 +1,16 @@
 import Sidebar from "../components/Sidebar";
 import { useAuthContext } from "../hooks/useAuthContext";
 import InstructorCourses from "../components/InstructorCourses";
-import { supabase } from "../lib/supabaseClient"; 
+import { supabase } from "../lib/supabaseClient";
 
 const Profile = () => {
-  const { state, dispatch } = useAuthContext();
+  const { state } = useAuthContext();
   const user = state?.user;
   const role = user.user_metadata?.role;
 
   const handleSwitchAccount = async () => {
     // const currentRole = user.user_metadata?.role;
-    const newRole = "Instructor" // Or whatever logic you need
+    const newRole = "Instructor"; // Or whatever logic you need
 
     try {
       // 1. Call the database function directly.
@@ -30,30 +30,39 @@ const Profile = () => {
       console.error("Error switching account:", error.message);
     }
   };
-  
+
   return (
-    <div>
-      <div className="flex gap-10">
+    <div className="bg-[#262626]">
+      <div className="flex gap-10 w-full">
         <Sidebar />
 
-        <div className="mt-11">
-          <h2 className="text-2xl">Profile</h2>
+        <div className="mt-10 w-full pr-20 pl-10">
+          <div className="flex flex-col gap-2">
+            <h2 className="text-3xl font-bold text-[#EAD300]">Profile</h2>
 
-          <p className="mt-4">Welcome back, {user.user_metadata?.full_name}</p>
+            <p className="text-[#EAD300] text-2xl font-medium mt-4">
+              Welcome back,{" "}
+              <span className="text-white/">
+                {user.user_metadata?.full_name}
+              </span>
+            </p>
 
-          <p>
-            Role: {role}{" "}
-            <button
-              onClick={handleSwitchAccount}
-              className={`text-sm italic underline cursor-pointer ${
-                role === "Learner" ? "" : "hidden"
-              }`}
-            >
-              Switch to Instructor Account
-            </button>
-          </p>
+            <div className="flex items-center gap-6">
+              <p className="text-[#a0a0a0] text-lg">{user.email}</p>
 
-          <p>Email: {user.email}</p>
+              <p className="text-black bg-[#a0a0a0]/65 rounded-full w-fit px-4 py-0.5 font-medium">
+                {role} Profile
+              </p>
+              <button
+                onClick={handleSwitchAccount}
+                className={`text-sm italic underline cursor-pointer ${
+                  role === "Learner" ? "" : "hidden"
+                }`}
+              >
+                Switch to Instructor Account
+              </button>
+            </div>
+          </div>
 
           {role === "Instructor" ? (
             <div>

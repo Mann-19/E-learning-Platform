@@ -15,7 +15,7 @@ function App() {
   return (
     <>
       <BrowserRouter>
-        <div>
+        <div className="font-league">
           <Routes>
             <Route
               index

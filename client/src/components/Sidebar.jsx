@@ -9,7 +9,7 @@ const Sidebar = () => {
   return (
     <div className="min-w-[20vw] max-w-[20vw] bg-primary-accent h-screen flex flex-col justify-between p-6 text-black font-league">
       <div className="flex flex-col">
-        <NavLink to={'/'} className="text-3xl font-extrabold text-center mt-4">EduMarg</NavLink>
+        <NavLink to={'/'} className="text-3xl font-black text-center mt-4">Gradia</NavLink>
       </div>
 
       <div className="flex flex-col gap-4">

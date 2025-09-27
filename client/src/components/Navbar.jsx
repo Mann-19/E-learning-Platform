@@ -1,6 +1,7 @@
 import { NavLink } from "react-router";
 import { useAuthContext } from "../hooks/useAuthContext";
 import useLogout from "../hooks/useLogout";
+import { SettingsIcon } from "lucide-react";
 
 const Navbar = () => {
   const { state } = useAuthContext();
@@ -19,10 +20,10 @@ const Navbar = () => {
       {/* Links */}
       <div className="flex items-center gap-6 mt-1">
         <NavLink
-          to="/profile"
+          to="/dashboard"
           className="px-4 py-2 text-lg font-semibold text-gray-600 hover:text-yellow-500 transition"
         >
-          Profile
+          Dashboard
         </NavLink>
 
         <NavLink
@@ -33,17 +34,17 @@ const Navbar = () => {
         </NavLink>
 
         <NavLink
-          to="/marketplace"
+          to="/explore"
           className="px-4 py-2 text-lg font-semibold text-gray-600 hover:text-yellow-500 transition"
         >
-          Marketplace
+          Explore
         </NavLink>
 
         <NavLink
           to="/settings"
           className="px-4 py-2 text-lg font-semibold text-gray-600 hover:text-yellow-500 transition"
         >
-          Settings
+          <SettingsIcon />
         </NavLink>
 
         {state?.user ? (
