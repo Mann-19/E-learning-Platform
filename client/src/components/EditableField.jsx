@@ -35,7 +35,7 @@ const EditableField = ({
         )}
         <CheckIcon
           onClick={handleSave}
-          className="cursor-pointer mt-3"
+          className="cursor-pointer"
           size={20}
         />
       </div>
@@ -49,7 +49,7 @@ const EditableField = ({
       </div>
       <EditIcon
         onClick={() => setIsEditing(true)}
-        className="cursor-pointer text-gray-500 mt-1"
+        className="cursor-pointer text-gray-500 mb-0.5"
         size={18}
       />
     </div>

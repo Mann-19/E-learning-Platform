@@ -5,6 +5,7 @@ import ProtectedRoute from "./components/ProtectedRoute.jsx";
 import { useAuthContext } from "./hooks/useAuthContext";
 import CreateCourse from "./pages/CreateCourse.jsx";
 import { Toaster } from 'react-hot-toast';
+import DraftEdit from './pages/DraftEdit.jsx';
 
 import { BrowserRouter, Routes, Route, Navigate } from "react-router";
 
@@ -42,6 +43,15 @@ function App() {
               element={
                 <ProtectedRoute allowedRoles={["Instructor", "Administrator"]}>
                   <CreateCourse />
+                </ProtectedRoute>
+              }
+            />
+
+            <Route
+              path={`/draft-edit/:id`}
+              element={
+                <ProtectedRoute allowedRoles={["Instructor", "Administrator"]}>
+                  <DraftEdit />
                 </ProtectedRoute>
               }
             />
