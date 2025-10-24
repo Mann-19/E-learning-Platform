@@ -15,7 +15,10 @@ export const useSignup = () => {
         email,
         password,
         options: {
-          data: { full_name: name }, // stored in raw_user_meta_data
+          data: { 
+            full_name: name,
+            role: "Learner"
+          }, // stored in raw_user_meta_data
         },
       });
 

@@ -3,22 +3,21 @@ import { useAuthContext } from "../hooks/useAuthContext";
 import useLogout from '../hooks/useLogout';
 
 const Sidebar = () => {
-  const { user } = useAuthContext();
+  const { state } = useAuthContext();
   const { logout } = useLogout();
 
   return (
     <div className="min-w-[20vw] max-w-[20vw] bg-primary-accent h-screen flex flex-col justify-between p-6 text-black font-league">
       <div className="flex flex-col">
-        <NavLink to={'/'} className="text-3xl font-extrabold text-center mt-4">EduMarg</NavLink>
-        <span className="text-base text-center font-regular">{user?.email}</span>
+        <NavLink to={'/'} className="text-3xl font-black text-center mt-4">Gradia</NavLink>
       </div>
 
       <div className="flex flex-col gap-4">
         <NavLink
-          to={"/profile"}
+          to={"/dashboard"}
           className="text-xl text-gray-600 bg-[#FFF7B1] px-6 py-3 rounded-xl font-semibold"
         >
-          Profile
+          Dashboard
         </NavLink>
         <NavLink
           to={"/community"}
@@ -27,10 +26,10 @@ const Sidebar = () => {
           Community
         </NavLink>
         <NavLink
-          to={"/marketplace"}
+          to={"/explore"}
           className="text-xl text-gray-600 bg-[#FFF7B1] px-6 py-3 rounded-xl font-semibold"
         >
-          Marketplace
+          Explore
         </NavLink>
       </div>
       <div className="flex flex-col">

@@ -20,7 +20,7 @@ const SignupForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await signup({name, email, password});
+    await signup({ name, email, password });
   };
 
   return (
@@ -75,17 +75,13 @@ const SignupForm = () => {
           </span>
         </div>
 
-          {/* Submit button */}
-        {state.isLoading ? (
-          <LoadingSpinner />
-        ) : (
-          <button
-            disabled={state.isLoading}
-            className="bg-primary-accent text-white rounded-xl w-full mt-6 py-2 text-lg font-semibold cursor-pointer hover:bg-primary-accent/80"
-          >
-            Signup
-          </button>
-        )}
+        {/* Submit button */}
+        <button
+          disabled={state.isLoading}
+          className="bg-primary-accent text-white rounded-xl w-full mt-6 py-2 text-lg font-semibold cursor-pointer hover:bg-primary-accent/80"
+        >
+          {!state.isLoading ? ( <span>Signup</span> ) : ( <LoadingSpinner /> ) }
+        </button>
 
         {/* Error line */}
         {error && (
@@ -93,7 +89,7 @@ const SignupForm = () => {
         )}
       </form>
 
-        {/* Divider */}
+      {/* Divider */}
       <div className="w-[60%] flex justify-between items-center mt-5">
         <div className="w-[40%] border-1 border-gray-400"></div>
         <span className="text-gray-400">OR</span>

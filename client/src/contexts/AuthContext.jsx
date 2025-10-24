@@ -4,6 +4,7 @@ import { supabase } from "../lib/supabaseClient.js";
 // Set an initial state
 const initialState = {
   user: null,
+  role: null,
   isLoading: true,
 };
 
@@ -14,7 +15,12 @@ export const AuthContext = createContext();
 function authReducer(state, action) {
   switch (action.type) {
     case "SET_USER":
-      return { ...state, user: action.payload, isLoading: false };
+      return {
+        ...state,
+        user: action.payload,
+        role: action.payload?.user_metadata?.role || null,
+        isLoading: false,
+      };
     case "LOGOUT":
       return { user: null, isLoading: false };
     default:
@@ -37,7 +43,7 @@ export const AuthContextProvider = ({ children }) => {
     // watches for auth state changes
     const { data: listener } = supabase.auth.onAuthStateChange(
       (_event, session) => {
-        dispatch({ type: 'SET_USER', payload: session?.user || null });
+        dispatch({ type: "SET_USER", payload: session?.user || null });
       }
     );
 
@@ -46,7 +52,7 @@ export const AuthContextProvider = ({ children }) => {
 
   const value = { state, dispatch };
 
-  console.log("AuthContext state: ", state.user);
+  console.log("AuthContext state: ", state);
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };

@@ -1,27 +1,29 @@
-import Home from "./pages/Home";
 import Login from "./pages/Login";
 import SignUp from "./pages/Signup";
-import Course from "./pages/Course.jsx";
-import Marketplace from "./pages/Marketplace.jsx";
+import Profile from "./pages/Profile.jsx";
 import ProtectedRoute from "./components/ProtectedRoute.jsx";
 import { useAuthContext } from "./hooks/useAuthContext";
+import CreateCourse from "./pages/CreateCourse.jsx";
+import { Toaster } from 'react-hot-toast';
+import DraftEdit from './pages/DraftEdit.jsx';
+import Explore from "./pages/Explore.jsx";
 
 import { BrowserRouter, Routes, Route, Navigate } from "react-router";
 
 function App() {
   const { state } = useAuthContext();
-  const user = state?.user || null;
+  const user = state.user;
 
   return (
     <>
       <BrowserRouter>
-        <div>
+        <div className="font-league">
           <Routes>
             <Route
               index
               path="/"
               element={
-                  user ? <Home /> : <Navigate to={'/login'} />
+                  user ? <Profile /> : <Navigate to={'/login'} />
               }
             />
             <Route
@@ -32,26 +34,36 @@ function App() {
               path="/signup"
               element={!user ? <SignUp /> : <Navigate to={"/"} />}
             />
+            <Route
+              path="/profile"
+              element={user ? <Profile /> : <Navigate to={"/login"} />}
+            />
+            <Route
+              path="/explore"
+              element={<Explore />}
+            />
 
             <Route
-              path={`/course/:id`}
+              path={`/create-course`}
               element={
-                <ProtectedRoute allowedRoles={["Mentor", "Student"]}>
-                  <Course />
+                <ProtectedRoute allowedRoles={["Instructor", "Administrator"]}>
+                  <CreateCourse />
                 </ProtectedRoute>
               }
             />
 
             <Route
-              path="/marketplace"
+              path={`/draft-edit/:id`}
               element={
-                <ProtectedRoute allowedRoles={["Mentor", "Student"]}>
-                  <Marketplace />
+                <ProtectedRoute allowedRoles={["Instructor", "Administrator"]}>
+                  <DraftEdit />
                 </ProtectedRoute>
               }
             />
           </Routes>
         </div>
+
+        <Toaster position="top-center" toastOptions={{duration: 3000}} />
       </BrowserRouter>
     </>
   );
