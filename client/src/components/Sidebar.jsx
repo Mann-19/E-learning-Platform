@@ -14,10 +14,10 @@ const Sidebar = () => {
 
       <div className="flex flex-col gap-4">
         <NavLink
-          to={"/profile"}
+          to={"/dashboard"}
           className="text-xl text-gray-600 bg-[#FFF7B1] px-6 py-3 rounded-xl font-semibold"
         >
-          Profile
+          Dashboard
         </NavLink>
         <NavLink
           to={"/community"}
@@ -26,10 +26,10 @@ const Sidebar = () => {
           Community
         </NavLink>
         <NavLink
-          to={"/marketplace"}
+          to={"/explore"}
           className="text-xl text-gray-600 bg-[#FFF7B1] px-6 py-3 rounded-xl font-semibold"
         >
-          Marketplace
+          Explore
         </NavLink>
       </div>
       <div className="flex flex-col">

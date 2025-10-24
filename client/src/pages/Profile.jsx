@@ -2,6 +2,7 @@ import Sidebar from "../components/Sidebar";
 import { useAuthContext } from "../hooks/useAuthContext";
 import InstructorCourses from "../components/InstructorCourses";
 import { supabase } from "../lib/supabaseClient";
+import LearnerCourses from "../components/LearnerCourses";
 
 const Profile = () => {
   const { state } = useAuthContext();
@@ -48,14 +49,14 @@ const Profile = () => {
             </p>
 
             <div className="flex items-center gap-6">
-              <p className="text-[#a0a0a0] text-lg">{user.email}</p>
+              <p className="text-white/85 text-lg">{user.email}</p>
 
-              <p className="text-black bg-[#a0a0a0]/65 rounded-full w-fit px-4 py-0.5 font-medium">
+              <p className="text-black bg-white/85 rounded-full w-fit px-4 py-0.5 font-medium">
                 {role} Profile
               </p>
               <button
                 onClick={handleSwitchAccount}
-                className={`text-sm italic underline cursor-pointer ${
+                className={`text-sm italic underline cursor-pointer text-[#a0a0a0] ${
                   role === "Learner" ? "" : "hidden"
                 }`}
               >
@@ -69,7 +70,9 @@ const Profile = () => {
               <InstructorCourses />
             </div>
           ) : (
-            <div></div>
+            <div>
+              <LearnerCourses />
+            </div>
           )}
         </div>
       </div>
